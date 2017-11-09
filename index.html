@@ -4,14 +4,15 @@
         <title></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="css/site.css">
     </head>
     <body>
         <div id="vueApp">
             <p>complete:</p>
             <ul>
-                <li v-for="todo in completedTodos">
+                <li v-for="(todo, index) in completedTodos">
                     <input v-if="!todo.editing" type="checkbox"  v-model="todo.complete" >
-                    <span v-if="!todo.editing">{{todo.name}}</span>
+                    <span v-if="!todo.editing">{{index}} . {{todo.name}}</span>
                     <input v-if="todo.editing" v-model="todo.name">
 
                     <input v-if="!todo.editing" v-on:click="edit(todo)" type="button" value="edit">
@@ -32,8 +33,58 @@
             </ul>
             <p>new todo:</p>
             <input v-model="currTodo" value="">
-            <input v-on:click="addTodo" :disabled="currTodo.length === 0" type="button" value="add">
+            <input @click="addTodo" :disabled="currTodo.length === 0" type="button" value="add">
+            <input v-on:click.once="addTodo" type="button" value="add once">
+            
+
+            <p>link:
+                <a v-on:click="beforeLink" v-bind:href="website">data website</a>
+                <!-- Event modifier -->
+                <!-- <a v-on:click.prevent="beforeLink" v-bind:href="website">data website</a> -->
+            </p>
+            <input type="text" v-bind:value="currTodo" />
+            
+            <p v-html="htmlTag"></p>
+            <div id="canvas" v-on:mousemove="updateXY">{{x}},{{y}}</div>
+
+            <p>Keyboard event
+                <label>Name:</label>
+                <!-- Key modifiers -->
+                <input type="text" v-on:keyup.alt.enter="logName" >
+                <label>Age</label>
+                <input type="text" v-on:keyup="logAge" >
+            </p>
+
+            <p>
+                <span v-bind:class="{red:isDynamicRed, blue:!isDynamicRed}">Dynamic color</span>
+                <input type="checkbox" v-model="isDynamicRed" >
+            </p>
+            <p>
+                <input type="checkbox" v-model="isShow" >
+                <span v-show="isShow">Shooooow</span>
+            </p>
+            <p>
+                <input type="checkbox" v-model="isError" >
+                <span v-if="isError" class="red">Error msg</span>
+                <span v-else-if="!isError" class="green">Success msg</span>
+                
+            </p>
+            
+            <p>Refs
+                <input type="text" ref="input" />
+                <button v-on:click="readRefs">Submit</button>
+                <div>Output: {{output}}</div>
+            </p>
         </div>    
+
+        <p>Template:</p>
+        <div id="vue-app-one">
+            <samplecomp></samplecomp>
+        </div>
+        <div id="vue-app-two">
+            <samplecomp></samplecomp>
+        </div>
+        
     </body>
 
     <script src="https://unpkg.com/vue"></script>
