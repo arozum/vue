@@ -1,12 +1,20 @@
 var app = new Vue({
     el: '#vueApp',
     data: {
-      todos: [],
+      todos: [{
+        name: "Ship package",
+        editing: false,
+        complete: true
+      }, {
+        name: "Buy sth",
+        editing: false,
+        complete: false
+      }],
       currTodo: ""
     },
     methods: {
       addTodo: function() {
-        this.todos.push({name:this.currTodo, editing:false});
+        this.todos.push({name:this.currTodo, editing:false, complete: false});
         this.currTodo = ""
       },
       remove: function(todo) {
@@ -20,6 +28,17 @@ var app = new Vue({
       save: function(todo){
         var index = this.todos.indexOf(todo);
         this.todos[index].editing = false;
+      },
+      changeCheck: function(todo) {
+        todo.complete = !todo.complete;
+      }
+    },
+    computed: {
+      completedTodos() {
+        return this.todos.filter(function(item){ return item.complete })
+      },
+      waitTodos() {
+        return this.todos.filter(function(item){ return !item.complete })
       }
     }
   })

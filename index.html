@@ -7,13 +7,25 @@
     </head>
     <body>
         <div id="vueApp">
+            <p>complete:</p>
             <ul>
-                <li v-for="todo in todos">
+                <li v-for="todo in completedTodos">
+                    <input v-if="!todo.editing" type="checkbox"  v-model="todo.complete" >
                     <span v-if="!todo.editing">{{todo.name}}</span>
                     <input v-if="todo.editing" v-model="todo.name">
 
                     <input v-if="!todo.editing" v-on:click="edit(todo)" type="button" value="edit">
                     <input v-if="todo.editing" v-on:click="save(todo)" type="button" value="save">
+                    <input v-if="!todo.editing" v-on:click="remove(todo)" type="button" value="remove">
+                    
+                </li>
+            </ul>
+            
+            <p>wait:</p>
+            <ul>
+                <li v-for="todo in waitTodos">
+                    <input v-if="!todo.editing" type="checkbox"  v-model="todo.complete" >
+                    <span v-if="!todo.editing">{{todo.name}}</span>
                     <input v-if="!todo.editing" v-on:click="remove(todo)" type="button" value="remove">
                     
                 </li>
@@ -26,5 +38,5 @@
 
     <script src="https://unpkg.com/vue"></script>
     <script type="text/javascript" src="js/app.js"></script>
-    
+
 </html>     
